@@ -346,11 +346,22 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <CardTitle>Revenue Overview</CardTitle>
-                    <CardDescription>Platform earnings breakdown</CardDescription>
+                    <CardDescription>
+                      Platform earnings breakdown
+                    </CardDescription>
                   </div>
                 </div>
-                <Badge variant="outline" className="rounded-lg bg-green-500/10 text-green-600 border-green-500/30">
-                  +{((analytics?.earnings?.total?.thisMonth || 0) / Math.max(analytics?.earnings?.total?.lifetime || 1, 1) * 100).toFixed(1)}% this month
+                <Badge
+                  variant="outline"
+                  className="rounded-lg bg-green-500/10 text-green-600 border-green-500/30"
+                >
+                  +
+                  {(
+                    ((analytics?.earnings?.total?.thisMonth || 0) /
+                      Math.max(analytics?.earnings?.total?.lifetime || 1, 1)) *
+                    100
+                  ).toFixed(1)}
+                  % this month
                 </Badge>
               </div>
             </CardHeader>
@@ -359,38 +370,116 @@ export default function DashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={[
-                      { name: "Today", total: analytics?.earnings?.total?.today || 0, company: analytics?.earnings?.company?.today || 0 },
-                      { name: "Yesterday", total: analytics?.earnings?.total?.yesterday || 0, company: analytics?.earnings?.company?.yesterday || 0 },
-                      { name: "This Week", total: analytics?.earnings?.total?.thisWeek || 0, company: analytics?.earnings?.company?.thisWeek || 0 },
-                      { name: "This Month", total: analytics?.earnings?.total?.thisMonth || 0, company: analytics?.earnings?.company?.thisMonth || 0 },
-                      { name: "This Year", total: analytics?.earnings?.total?.thisYear || 0, company: analytics?.earnings?.company?.thisYear || 0 },
+                      {
+                        name: "Today",
+                        total: analytics?.earnings?.total?.today || 0,
+                        company: analytics?.earnings?.company?.today || 0,
+                      },
+                      {
+                        name: "Yesterday",
+                        total: analytics?.earnings?.total?.yesterday || 0,
+                        company: analytics?.earnings?.company?.yesterday || 0,
+                      },
+                      {
+                        name: "This Week",
+                        total: analytics?.earnings?.total?.thisWeek || 0,
+                        company: analytics?.earnings?.company?.thisWeek || 0,
+                      },
+                      {
+                        name: "This Month",
+                        total: analytics?.earnings?.total?.thisMonth || 0,
+                        company: analytics?.earnings?.company?.thisMonth || 0,
+                      },
+                      {
+                        name: "This Year",
+                        total: analytics?.earnings?.total?.thisYear || 0,
+                        company: analytics?.earnings?.company?.thisYear || 0,
+                      },
                     ]}
                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                   >
                     <defs>
-                      <linearGradient id="totalGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      <linearGradient
+                        id="totalGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#10b981"
+                          stopOpacity={0.3}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#10b981"
+                          stopOpacity={0}
+                        />
                       </linearGradient>
-                      <linearGradient id="companyGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#14b8a6" stopOpacity={0}/>
+                      <linearGradient
+                        id="companyGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#14b8a6"
+                          stopOpacity={0.3}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#14b8a6"
+                          stopOpacity={0}
+                        />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="name" className="text-xs" tick={{ fill: 'currentColor' }} />
-                    <YAxis className="text-xs" tick={{ fill: 'currentColor' }} tickFormatter={(value) => `$${value}`} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '12px',
-                        boxShadow: '0 10px 40px -10px rgba(0,0,0,0.2)'
-                      }}
-                      formatter={(value: number) => [`$${value.toFixed(2)}`, '']}
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      className="stroke-muted"
                     />
-                    <Area type="monotone" dataKey="total" stroke="#10b981" fillOpacity={1} fill="url(#totalGradient)" strokeWidth={2} name="Total Revenue" />
-                    <Area type="monotone" dataKey="company" stroke="#14b8a6" fillOpacity={1} fill="url(#companyGradient)" strokeWidth={2} name="Company Share" />
+                    <XAxis
+                      dataKey="name"
+                      className="text-xs"
+                      tick={{ fill: "currentColor" }}
+                    />
+                    <YAxis
+                      className="text-xs"
+                      tick={{ fill: "currentColor" }}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "12px",
+                        boxShadow: "0 10px 40px -10px rgba(0,0,0,0.2)",
+                      }}
+                      formatter={(value: number | undefined) => [
+                        `$${value?.toFixed(2) ?? "0.00"}`,
+                        "",
+                      ]}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="total"
+                      stroke="#10b981"
+                      fillOpacity={1}
+                      fill="url(#totalGradient)"
+                      strokeWidth={2}
+                      name="Total Revenue"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="company"
+                      stroke="#14b8a6"
+                      fillOpacity={1}
+                      fill="url(#companyGradient)"
+                      strokeWidth={2}
+                      name="Company Share"
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -416,9 +505,18 @@ export default function DashboardPage() {
                   <RechartsPieChart>
                     <Pie
                       data={[
-                        { name: "Subscribers", value: analytics?.users?.subscribers || 0 },
-                        { name: "Authors", value: analytics?.users?.authors || 0 },
-                        { name: "Premium", value: analytics?.users?.premium || 0 },
+                        {
+                          name: "Subscribers",
+                          value: analytics?.users?.subscribers || 0,
+                        },
+                        {
+                          name: "Authors",
+                          value: analytics?.users?.authors || 0,
+                        },
+                        {
+                          name: "Premium",
+                          value: analytics?.users?.premium || 0,
+                        },
                       ]}
                       cx="50%"
                       cy="50%"
@@ -428,14 +526,17 @@ export default function DashboardPage() {
                       dataKey="value"
                     >
                       {[0, 1, 2].map((_, index) => (
-                        <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={PIE_COLORS[index % PIE_COLORS.length]}
+                        />
                       ))}
                     </Pie>
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '12px',
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "12px",
                       }}
                     />
                     <Legend />
@@ -463,26 +564,62 @@ export default function DashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={[
-                      { name: "Today", downloads: analytics?.downloads?.today || 0, views: analytics?.views?.today || 0 },
-                      { name: "Yesterday", downloads: analytics?.downloads?.yesterday || 0, views: analytics?.views?.yesterday || 0 },
-                      { name: "This Week", downloads: analytics?.downloads?.thisWeek || 0, views: analytics?.views?.thisWeek || 0 },
-                      { name: "This Month", downloads: analytics?.downloads?.thisMonth || 0, views: analytics?.views?.thisMonth || 0 },
+                      {
+                        name: "Today",
+                        downloads: analytics?.downloads?.today || 0,
+                        views: analytics?.views?.today || 0,
+                      },
+                      {
+                        name: "Yesterday",
+                        downloads: analytics?.downloads?.yesterday || 0,
+                        views: analytics?.views?.yesterday || 0,
+                      },
+                      {
+                        name: "This Week",
+                        downloads: analytics?.downloads?.thisWeek || 0,
+                        views: analytics?.views?.thisWeek || 0,
+                      },
+                      {
+                        name: "This Month",
+                        downloads: analytics?.downloads?.thisMonth || 0,
+                        views: analytics?.views?.thisMonth || 0,
+                      },
                     ]}
                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="name" className="text-xs" tick={{ fill: 'currentColor' }} />
-                    <YAxis className="text-xs" tick={{ fill: 'currentColor' }} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '12px',
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      className="stroke-muted"
+                    />
+                    <XAxis
+                      dataKey="name"
+                      className="text-xs"
+                      tick={{ fill: "currentColor" }}
+                    />
+                    <YAxis
+                      className="text-xs"
+                      tick={{ fill: "currentColor" }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "12px",
                       }}
                     />
                     <Legend />
-                    <Bar dataKey="downloads" fill="#f59e0b" radius={[4, 4, 0, 0]} name="Downloads" />
-                    <Bar dataKey="views" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Views" />
+                    <Bar
+                      dataKey="downloads"
+                      fill="#f59e0b"
+                      radius={[4, 4, 0, 0]}
+                      name="Downloads"
+                    />
+                    <Bar
+                      dataKey="views"
+                      fill="#3b82f6"
+                      radius={[4, 4, 0, 0]}
+                      name="Views"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -505,15 +642,21 @@ export default function DashboardPage() {
             <CardContent>
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="text-center p-4 rounded-xl bg-green-500/10 border border-green-500/20">
-                  <div className="text-2xl font-bold text-green-600">{analytics?.assets?.approved || 0}</div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {analytics?.assets?.approved || 0}
+                  </div>
                   <div className="text-xs text-muted-foreground">Approved</div>
                 </div>
                 <div className="text-center p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                  <div className="text-2xl font-bold text-amber-600">{analytics?.assets?.pending || 0}</div>
+                  <div className="text-2xl font-bold text-amber-600">
+                    {analytics?.assets?.pending || 0}
+                  </div>
                   <div className="text-xs text-muted-foreground">Pending</div>
                 </div>
                 <div className="text-center p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                  <div className="text-2xl font-bold text-red-600">{analytics?.assets?.rejected || 0}</div>
+                  <div className="text-2xl font-bold text-red-600">
+                    {analytics?.assets?.rejected || 0}
+                  </div>
                   <div className="text-xs text-muted-foreground">Rejected</div>
                 </div>
               </div>
@@ -522,15 +665,26 @@ export default function DashboardPage() {
                   <RechartsPieChart>
                     <Pie
                       data={[
-                        { name: "Approved", value: analytics?.assets?.approved || 0 },
-                        { name: "Pending", value: analytics?.assets?.pending || 0 },
-                        { name: "Rejected", value: analytics?.assets?.rejected || 0 },
+                        {
+                          name: "Approved",
+                          value: analytics?.assets?.approved || 0,
+                        },
+                        {
+                          name: "Pending",
+                          value: analytics?.assets?.pending || 0,
+                        },
+                        {
+                          name: "Rejected",
+                          value: analytics?.assets?.rejected || 0,
+                        },
                       ]}
                       cx="50%"
                       cy="50%"
                       outerRadius={60}
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name} ${((percent ?? 0) * 100).toFixed(0)}%`
+                      }
                     >
                       <Cell fill="#22c55e" />
                       <Cell fill="#f59e0b" />
