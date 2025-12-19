@@ -49,16 +49,21 @@ export default function LoginPage() {
 
       // Check if response contains OTP challenge (for authors/admins)
       if (response.data?.otp) {
-        toast.success("OTP sent to your email!");
+        toast.success(response.message || "OTP sent to your email!");
         router.push(`/auth/verify-otp?email=${encodeURIComponent(data.email)}`);
       } else if (response.data?.userInfo && response.data?.accessToken) {
         // Normal login for subscribers
         setUser(response.data.userInfo);
         setAccessToken(response.data.accessToken);
-        toast.success("Login successful!");
+        toast.success(response.message || "Login successful!");
         router.push("/dashboard");
       } else {
-        toast.error("Invalid response from server");
+        // Handle successful response but missing expected data
+        toast.error(
+          response.message ||
+            "Invalid response from server. Please check your credentials."
+        );
+        console.error("Unexpected login response:", response);
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Login failed");
