@@ -104,7 +104,7 @@ const ASSET_TYPE_INFO: Record<
     mainFileDesc: "MP4, MOV, or other video formats",
     previewDesc: "Optional: Short video preview (max 15 seconds)",
     requirements: [
-      "Size: 30MB - 500MB",
+      "Size: 2MB - 500MB (minimum 2MB required)",
       "Duration: 5 seconds - 5 minutes",
       "Optional video preview (max 15 seconds)",
     ],
@@ -198,6 +198,37 @@ export default function UploadAssetPage() {
     if (!type) {
       toast.error("Please select asset type");
       return false;
+    }
+
+    // File size validation
+    const fileSizeInMB = assetFile.size / 1024 / 1024;
+
+    // Video file size validation
+    if (type === "video") {
+      if (fileSizeInMB < 2) {
+        toast.error("Video file must be at least 2 MB");
+        return false;
+      }
+      if (fileSizeInMB > 500) {
+        toast.error("Video file must not exceed 500 MB");
+        return false;
+      }
+    }
+
+    // Image file size validation
+    if (type === "image") {
+      if (fileSizeInMB > 10) {
+        toast.error("Image file must not exceed 10 MB");
+        return false;
+      }
+    }
+
+    // ZIP types file size validation
+    if (isZipType(type)) {
+      if (fileSizeInMB > 500) {
+        toast.error("ZIP file must not exceed 500 MB");
+        return false;
+      }
     }
 
     // ZIP types require preview images
