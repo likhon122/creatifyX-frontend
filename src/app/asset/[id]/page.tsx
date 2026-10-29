@@ -183,12 +183,21 @@ export default function AssetDetailPage({
       return;
     }
 
+    if (user?.role && user.role !== "subscriber") {
+      const formattedRole = user.role.replace("_", " ");
+      toast.error(
+        "Only subscribers can purchase assets. You are logged in as '" +
+          formattedRole +
+          ". Administrators and authors cannot make purchase transactions. Please use a subscriber account to purchase.",
+      );
+      return;
+    }
+
     console.log(assetId);
 
     // Premium users get 30% discount but still need to purchase
     setIsPurchasing(true);
     try {
-      console.log("Creating checkout for asset ID:", assetId);
       const response = await paymentApi.createCheckout(assetId);
       console.log(response);
 
@@ -198,9 +207,13 @@ export default function AssetDetailPage({
       } else {
         throw new Error("No session URL returned from server");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Checkout error:", error);
-      toast.error("Failed to create checkout session");
+      const serverMessage = error?.response?.data?.message;
+      toast.error(
+        serverMessage ||
+          "Only subscribers can make purchase transactions. Please use a subscriber account.",
+      );
       setIsPurchasing(false);
     }
   };
@@ -798,6 +811,18 @@ export default function AssetDetailPage({
                   </Badge>
                 </div>
               )}
+
+              {user &&
+                user.role !== "subscriber" &&
+                !isPurchased &&
+                !isFreeAsset && (
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-700 dark:text-amber-400 text-center">
+                    <strong>Notice:</strong> Signed in as{" "}
+                    <strong>{user.role.replace("_", " ")}</strong>. Only{" "}
+                    <strong>Subscriber</strong> accounts can make purchase
+                    transactions.
+                  </div>
+                )}
 
               {/* Show download button ONLY for: purchased assets or free assets */}
               {isPurchased || isFreeAsset ? (

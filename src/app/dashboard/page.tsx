@@ -457,7 +457,7 @@ export default function DashboardPage() {
                         borderRadius: "12px",
                         boxShadow: "0 10px 40px -10px rgba(0,0,0,0.2)",
                       }}
-                      formatter={(value: number | undefined) => [
+                      formatter={(value: any) => [
                         `$${value?.toFixed(2) ?? "0.00"}`,
                         "",
                       ]}

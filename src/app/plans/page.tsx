@@ -60,6 +60,16 @@ export default function PlansPage() {
       return;
     }
 
+    if (user?.role && user.role !== "subscriber") {
+      const formattedRole = user.role.replace("_", " ");
+      toast.error(
+        "Only subscribers can purchase subscription plans. You are logged in as '" +
+          formattedRole +
+          ". Administrators and authors cannot make purchase transactions. Please switch to a subscriber account.",
+      );
+      return;
+    }
+
     setProcessingPlanId(planId);
     try {
       const response = await subscriptionApi.createCheckout(planId);
@@ -69,8 +79,12 @@ export default function PlansPage() {
         toast.error("Failed to get checkout URL");
         setProcessingPlanId(null);
       }
-    } catch (error) {
-      toast.error("Failed to create checkout session");
+    } catch (error: any) {
+      const serverMessage = error?.response?.data?.message;
+      toast.error(
+        serverMessage ||
+          "Only subscribers can make purchase transactions. Please use a subscriber account.",
+      );
       setProcessingPlanId(null);
     }
   };
@@ -122,6 +136,21 @@ export default function PlansPage() {
           works best for you and your creative needs.
         </p>
       </div>
+
+      {/* Notice for non-subscribers */}
+      {user && user.role !== "subscriber" && (
+        <div className="max-w-3xl mx-auto px-4 mb-10">
+          <div className="rounded-2xl border-2 border-amber-500/30 bg-amber-500/10 p-4 text-center text-sm text-amber-800 dark:text-amber-300 shadow-sm flex items-center justify-center gap-2">
+            <Shield className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span>
+              <strong>Note:</strong> You are signed in as{" "}
+              <strong>{user.role.replace("_", " ")}</strong>. Only{" "}
+              <strong>Subscriber</strong> accounts are eligible to make purchase
+              transactions or subscribe to plans.
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Plans Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto px-4 mb-20">
