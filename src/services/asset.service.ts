@@ -8,18 +8,24 @@ export const assetService = {
     const params = new URLSearchParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          params.append(key, String(value));
+        if (
+          value !== undefined &&
+          value !== null &&
+          String(value).trim() !== "" &&
+          value !== "all"
+        ) {
+          params.append(key, String(value).trim());
         }
       });
     }
-    return apiClient.get(`/assets?${params.toString()}`);
+    const query = params.toString();
+    return apiClient.get(`/assets${query ? `?${query}` : ""}`);
   },
 
   // Get my assets (author's assets)
   async getMyAssets(filters?: AssetFilters): Promise<PaginatedResponse<Asset>> {
     // Get current user from localStorage
-    const authStorage = localStorage.getItem("auth-storage");
+    const authStorage = typeof window !== "undefined" ? localStorage.getItem("auth-storage") : null;
     let authorId = "";
     if (authStorage) {
       try {
@@ -33,15 +39,21 @@ export const assetService = {
     const params = new URLSearchParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          params.append(key, String(value));
+        if (
+          value !== undefined &&
+          value !== null &&
+          String(value).trim() !== "" &&
+          value !== "all"
+        ) {
+          params.append(key, String(value).trim());
         }
       });
     }
     if (authorId) {
       params.append("author", authorId);
     }
-    return apiClient.get(`/assets?${params.toString()}`);
+    const query = params.toString();
+    return apiClient.get(`/assets${query ? `?${query}` : ""}`);
   },
 
   // Get single asset
