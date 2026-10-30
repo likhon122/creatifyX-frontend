@@ -7,6 +7,7 @@
 [![Radix UI](https://img.shields.io/badge/Radix%20UI-Primitves-161618?logo=radix-ui)](https://www.radix-ui.com/)
 [![Zustand](https://img.shields.io/badge/Zustand-State%20Management-orange)](https://github.com/pmndrs/zustand)
 [![Stripe](https://img.shields.io/badge/Stripe-Checkout-blueviolet?logo=stripe)](https://stripe.com/)
+[![Backend Repository](https://img.shields.io/badge/Backend%20API-likhon122%2FcreatifyX--backend-blue?logo=github)](https://github.com/likhon122/creatifyX-backend.git)
 
 Modern, high-performance web application powering the **CreatifyX** digital marketplace. Built on **Next.js 16 (App Router with Turbopack)** and **React 19**, featuring rich interactive previews, role-guarded purchasing workflows, instant catalog filtering, complete creator dashboards, and a complete suite of marketing and legal routes.
 
@@ -14,6 +15,7 @@ Modern, high-performance web application powering the **CreatifyX** digital mark
 
 ## 📑 Table of Contents
 
+- [Backend Repository & API Architecture](#backend-repository--api-architecture)
 - [Application Features](#application-features)
 - [Architecture & Tech Stack](#architecture--tech-stack)
 - [Project Structure](#project-structure)
@@ -24,6 +26,29 @@ Modern, high-performance web application powering the **CreatifyX** digital mark
 - [Environment Configuration](#environment-configuration)
 - [Getting Started](#getting-started)
 - [Production Deployment](#production-deployment)
+
+---
+
+## 🔗 Backend Repository & API Architecture
+
+This frontend is powered by the **CreatifyX Backend API**:
+- **Backend GitHub Repository**: [`https://github.com/likhon122/creatifyX-backend.git`](https://github.com/likhon122/creatifyX-backend.git)
+- **Production API URL**: `https://creatify-x-backend.vercel.app/api/v1`
+- **Capabilities**: OWASP-compliant cryptographic authentication, automated Cloudinary media watermarking, Stripe checkout sessions, role-based access control (RBAC), and 15ms high-speed MongoDB aggregation.
+
+To run the complete platform locally:
+```bash
+# Clone and start backend
+git clone https://github.com/likhon122/creatifyX-backend.git
+cd creatifyX-backend
+npm install
+npm run dev
+
+# In another terminal, start this frontend
+cd ../creatifyX-frontend
+npm install
+npm run dev
+```
 
 ---
 
